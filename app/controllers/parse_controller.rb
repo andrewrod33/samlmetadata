@@ -16,11 +16,9 @@ class ParseController < ApplicationController
 	@sloList = doc.xpath("//md:SingleLogoutService//@Location").text.gsub("http", "\nhttp")
 	@audience = doc.root["entityID"]
 	@nameID = doc.xpath("//md:NameIDFormat").text.gsub("urn", "\nurn")
-
 	@acsFinal = []
 	@acsUrlValidator = []
 
-	puts "Consumer URL/ACS URL"
 	for i in 0..@acsTypeList.length
 	  if @acsTypeList[i].to_s == "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
 	  	@acsFinal.push(@acsList[i])
@@ -28,11 +26,9 @@ class ParseController < ApplicationController
 	  end
 	end
 
-
-	puts "ACS URL Validator:"
-	for i in 0..@acsFinal.length
+	for i in 0..(@acsFinal.length - 1)
 	  @acsUrlValidator.push("^" + @acsFinal[i].to_s.gsub(".","\\.").gsub("/","\\/").gsub("?","\\?") + ".*$")
 	end
-	
+
 	  end
 	end
