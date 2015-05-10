@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  get 'parse/home'
+  root 'parse#home'
 
-  root 'application#hello'
+  post "/upload" => "parse#upload"
+  # root '#hello'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
