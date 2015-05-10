@@ -1,0 +1,25 @@
+<h1>Parse#upload</h1>
+
+<%= @file_content %>
+
+
+<h3>Audience/SP EntityID</h3>
+<li><%= @audience %></li>
+
+<h3>ACS/Consumer URL</h3>
+<% @acsFinal.each do |url| %>
+  <li><%= url %></li>
+<% end %>
+
+<h3>Single Logout URL/SLO URL</h3>
+<li><%= @sloList %></li>
+
+<h3>SAML NameID Format</h3>
+<li><%= @nameID %></li>
+
+
+<h3>ACS URL Validator</h3>
+
+<% @acsUrlValidator.each do |item| %>
+  <li><%= item %></li>
+<% end %>
