@@ -1,0 +1,12 @@
+/Users/andrew/.rbenv/versions/2.1.5/bin/ruby -r ./siteconf20150510-57550-1gwzvte.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling debug_inspector.c
+linking shared-object debug_inspector.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 debug_inspector.bundle ./.gem.20150510-57550-161z9xm
+installing default debug_inspector libraries
