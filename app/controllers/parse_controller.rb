@@ -7,10 +7,17 @@ class ParseController < ApplicationController
   	'require nokogiri'
   	uploaded_file = params[:file]
 	file_content = uploaded_file.read
-
 	doc = Nokogiri::XML(file_content)
-	# f.close
 
+	if doc.at_css('EntityDescriptor')
+      xml2(doc)
+	else
+      xml1(doc)
+	end
+	end
+
+
+  def xml1(doc)
 	@acsTypeList = doc.xpath("//md:AssertionConsumerService//@Binding")
 	@acsList = doc.xpath("//md:AssertionConsumerService//@Location")
 	@sloList = doc.xpath("//md:SingleLogoutService//@Location").text.gsub("http", "\nhttp")
@@ -22,13 +29,40 @@ class ParseController < ApplicationController
 	for i in 0..@acsTypeList.length
 	  if @acsTypeList[i].to_s == "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
 	  	@acsFinal.push(@acsList[i])
-	  	puts @acsList[i]
 	  end
 	end
 
 	for i in 0..(@acsFinal.length - 1)
 	  @acsUrlValidator.push("^" + @acsFinal[i].to_s.gsub(".","\\.").gsub("/","\\/").gsub("?","\\?") + ".*$")
 	end
+  end
 
+
+
+
+  def xml2(doc)
+	@acsTypeList = doc.xpath("//AssertionConsumerService//@Binding")
+	@acsList = doc.xpath("//AssertionConsumerService//@Location")
+	@sloList = doc.xpath("//SingleLogoutService//@Location").text.gsub("http", "\nhttp")
+	@audience = doc.root["entityID"]
+	@nameID = doc.xpath("//NameIDFormat").text.gsub("urn", "\nurn")
+	@acsFinal = []
+	@acsUrlValidator = []
+
+
+	puts "----" * 100
+	puts @acsTypeList
+
+
+
+	for i in 0..@acsTypeList.length
+	  if @acsTypeList[i].to_s == "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+	  	@acsFinal.push(@acsList[i])
 	  end
 	end
+
+	for i in 0..(@acsFinal.length - 1)
+	  @acsUrlValidator.push("^" + @acsFinal[i].to_s.gsub(".","\\.").gsub("/","\\/").gsub("?","\\?") + ".*$")
+	end
+  end
+end
