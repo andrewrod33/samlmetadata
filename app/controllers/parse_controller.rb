@@ -20,11 +20,12 @@ class ParseController < ApplicationController
   def xml1(doc)
 	@acsTypeList = doc.xpath("//md:AssertionConsumerService//@Binding")
 	@acsList = doc.xpath("//md:AssertionConsumerService//@Location")
-	@sloList = doc.xpath("//md:SingleLogoutService//@Location").text.gsub("http", "\nhttp")
+	@sloList = doc.xpath("//md:SingleLogoutService//@Location").text.gsub("http", " http").split(" ")
 	@audience = doc.root["entityID"]
-	@nameID = doc.xpath("//md:NameIDFormat").text.gsub("urn", "\nurn")
+	@nameID = doc.xpath("//md:NameIDFormat").text.gsub("urn", "\nurn").split(" ")
 	@acsFinal = []
 	@acsUrlValidator = []
+	@sloFinal = []
 
 	for i in 0..@acsTypeList.length
 	  if @acsTypeList[i].to_s == "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
@@ -43,9 +44,9 @@ class ParseController < ApplicationController
   def xml2(doc)
 	@acsTypeList = doc.xpath("//AssertionConsumerService//@Binding")
 	@acsList = doc.xpath("//AssertionConsumerService//@Location")
-	@sloList = doc.xpath("//SingleLogoutService//@Location").text.gsub("http", "\nhttp")
+	@sloList = doc.xpath("//SingleLogoutService//@Location").text.gsub("http", " http").split(" ")
 	@audience = doc.root["entityID"]
-	@nameID = doc.xpath("//NameIDFormat").text.gsub("urn", "\nurn")
+	@nameID = doc.xpath("//NameIDFormat").text.gsub("urn", "\nurn").split(" ")
 	@acsFinal = []
 	@acsUrlValidator = []
 

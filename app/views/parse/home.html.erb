@@ -1,7 +1,6 @@
 <h1>Parse#home</h1>
-<p>Find me in app/views/parse/home.html.erb</p>
 
 <%= form_tag '/upload', :multipart => true do %>
-   <label for="file">Upload text File</label> <%= file_field_tag "file" %>
-   <%= submit_tag %>
+   <label for="file">Upload SP Metadata XML File</label> <%= file_field_tag "file", :required => true %>
+   <%= submit_tag "Submit" %>
 <% end %>

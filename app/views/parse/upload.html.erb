@@ -12,10 +12,15 @@
 <% end %>
 
 <h3>Single Logout URL/SLO URL</h3>
-<li><%= @sloList %></li>
+<% @sloList.each do |slo| %>
+  <li><%= slo %></li>
+<% end %>
 
 <h3>SAML NameID Format</h3>
-<li><%= @nameID %></li>
+<% @nameID.each do |name| %>
+  <li><%= name %></li>
+<% end %>
+
 
 
 <h3>ACS URL Validator</h3>
