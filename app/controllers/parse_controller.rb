@@ -22,6 +22,7 @@ class ParseController < ApplicationController
 	@acsList = doc.xpath("//md:AssertionConsumerService//@Location")
 	@sloList = doc.xpath("//md:SingleLogoutService//@Location").text.gsub("http", " http").split(" ")
 	@audience = doc.root["entityID"]
+	@attribute = doc.xpath("//md:Attribute//@Name").text
 	@nameID = doc.xpath("//md:NameIDFormat").text.gsub("urn", "\nurn").split(" ")
 	@acsFinal = []
 	@acsUrlValidator = []
@@ -42,19 +43,19 @@ class ParseController < ApplicationController
 
 
   def xml2(doc)
+  	doc.remove_namespaces!
 	@acsTypeList = doc.xpath("//AssertionConsumerService//@Binding")
 	@acsList = doc.xpath("//AssertionConsumerService//@Location")
 	@sloList = doc.xpath("//SingleLogoutService//@Location").text.gsub("http", " http").split(" ")
 	@audience = doc.root["entityID"]
+	@attribute = doc.xpath("//Attribute//@Name").text
 	@nameID = doc.xpath("//NameIDFormat").text.gsub("urn", "\nurn").split(" ")
 	@acsFinal = []
 	@acsUrlValidator = []
+	@sloFinal = []
 
-
-	puts "----" * 100
-	puts @acsTypeList
-
-
+	puts "--" * 100
+	puts @attribute
 
 	for i in 0..@acsTypeList.length
 	  if @acsTypeList[i].to_s == "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
