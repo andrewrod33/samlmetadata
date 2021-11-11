@@ -272,7 +272,8 @@ module ActiveRecord
 
         # Set the client message level.
         def client_min_messages=(level)
-          execute("SET client_min_messages TO '#{level}'", 'SCHEMA')
+          execute("SET client_min_messages TO '#{level.downcase}'") if level &&
+          ['debug5', 'debug4', 'debug3', 'debug2', 'debug1', 'log', 'notice', 'warning', 'error'].include?(level.downcase)
         end
 
         # Returns the sequence name for a table's primary key or some other specified key.
